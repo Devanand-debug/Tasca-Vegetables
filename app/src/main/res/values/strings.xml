@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Tasca Vegetables</string>
+    <string name="enter_mobile_no">Enter Mobile No.</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="login">Login</string>
+    <string name="home">Home</string>
+    <string name="cart">Cart</string>
+    <string name="hello_blank_fragment"> Cart fragment</string>
+</resources>
