@@ -1,21 +1,28 @@
 package com.devanand.tascavegetables.screens
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devanand.tascavegetables.R
 import com.devanand.tascavegetables.adapter.VegetablesAdapter
 import com.devanand.tascavegetables.databinding.FragmentDashboardBinding
 import com.devanand.tascavegetables.model.Vegetables
+import com.devanand.tascavegetables.viewmodel.CartViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment() {
 
     private lateinit var binding : FragmentDashboardBinding
+
+    private val cartViewModel: CartViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +47,7 @@ class DashboardFragment : Fragment() {
             Vegetables(R.drawable.beans_french,"Beans French","Rs. 69/- kg"),
             Vegetables(R.drawable.bitter_gourd,"Bitter Gourd","Rs. 89/- kg"),
             Vegetables(R.drawable.broccoli,"Broccoli","Rs. 89/- kg"),
-            Vegetables(R.drawable.capcicum,"Cabbage","Rs. 79/- kg"),
+            Vegetables(R.drawable.capcicum,"Capsicum","Rs. 79/- kg"),
             Vegetables(R.drawable.carrot,"Carrot","Rs. 69/- kg"),
             Vegetables(R.drawable.cauliflower,"Cauliflower","Rs. 79/- kg"),
             Vegetables(R.drawable.coriander,"Coriander","Rs. 19/- kg"),
@@ -52,7 +59,24 @@ class DashboardFragment : Fragment() {
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = VegetablesAdapter(vegList)
+       // binding.recyclerView.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.recyclerView.adapter = VegetablesAdapter(vegList, cartViewModel)
+
+
+        val bottomNavigationView = requireActivity().findViewById<BottomNavigationView>(R.id.bottom_nav)
+
+        val cartBadge = bottomNavigationView.getOrCreateBadge(R.id.cartFragment)
+        cartBadge.isVisible = false
+
+        cartViewModel.cartCount.observe(viewLifecycleOwner){ count ->
+            Log.e("cartCount2","$count")
+            if (count > 0){
+                cartBadge.isVisible = true
+                cartBadge.number = count
+            }else{
+                cartBadge.isVisible = false
+            }
+        }
 
     }
 

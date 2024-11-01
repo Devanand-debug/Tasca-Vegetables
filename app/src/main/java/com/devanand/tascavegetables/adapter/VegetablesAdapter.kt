@@ -3,15 +3,17 @@ package com.devanand.tascavegetables.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.devanand.tascavegetables.R
 import com.devanand.tascavegetables.model.Vegetables
+import com.devanand.tascavegetables.viewmodel.CartViewModel
 
-class VegetablesAdapter(private val vegetableItems : List<Vegetables>) : RecyclerView.Adapter<VegetablesAdapter.MyViewHolder>() {
+class VegetablesAdapter(
+    private val vegetableItems: List<Vegetables>,
+    private val cartViewModel: CartViewModel) : RecyclerView.Adapter<VegetablesAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
 
@@ -38,6 +40,10 @@ class VegetablesAdapter(private val vegetableItems : List<Vegetables>) : Recycle
         holder.imgView.setImageResource(vegetable.imgResId)
         holder.tvVegNames.text = vegetable.vegName
         holder.tvPrices.text = vegetable.vegPrice
+
+        holder.btnAddToCart.setOnClickListener {
+            cartViewModel.addToCart()
+        }
     }
 
     override fun getItemCount(): Int {

@@ -20,4 +20,11 @@ class CartViewModel @Inject constructor(private val repository: CartRepository) 
         }
     }
 
+    private val _cartCount = MutableLiveData(0)
+    val cartCount: LiveData<Int> get() = _cartCount
+
+    fun addToCart() {
+        _cartCount.value = (_cartCount.value ?: 0) + 1
+    }
+
 }
